@@ -1,0 +1,12 @@
+name = "systemd"
+version = "0.1.0"
+
+desc = "Systemd bindings for Lua"
+author = "Daurn Imator"
+license = "MIT"
+url = "https://github.com/daurnimator/lua-systemd"
+maintainer = "Daurn Imator"
+
+depends = {
+	"lua >= 5.1"
+}
