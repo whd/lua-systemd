@@ -118,16 +118,16 @@ static int journal_open_files (lua_State *L) {
 	return 1;
 }
 
-static int journal_open_container (lua_State *L) {
-	int err;
-	const char *machine = luaL_checkstring(L, 1);
-	int flags = luaL_optinteger(L, 2, 0);
-	sd_journal **j = lua_newuserdata(L, sizeof(sd_journal*));
-	err = sd_journal_open_container(j, machine, flags);
-	if (err != 0) return handle_error(L, -err);
-	luaL_setmetatable(L, JOURNAL_METATABLE);
-	return 1;
-}
+/* static int journal_open_container (lua_State *L) { */
+/* 	int err; */
+/* 	const char *machine = luaL_checkstring(L, 1); */
+/* 	int flags = luaL_optinteger(L, 2, 0); */
+/* 	sd_journal **j = lua_newuserdata(L, sizeof(sd_journal*)); */
+/* 	err = sd_journal_open_container(j, machine, flags); */
+/* 	if (err != 0) return handle_error(L, -err); */
+/* 	luaL_setmetatable(L, JOURNAL_METATABLE); */
+/* 	return 1; */
+/* } */
 
 static int journal_close (lua_State *L) {
 	sd_journal **jp = luaL_checkudata(L, 1, JOURNAL_METATABLE);
@@ -541,7 +541,7 @@ int luaopen_systemd_journal_core (lua_State *L) {
 		{"open", journal_open},
 		{"open_directory", journal_open_directory},
 		{"open_files", journal_open_files},
-		{"open_container", journal_open_container},
+		/* {"open_container", journal_open_container}, */
 		{NULL, NULL}
 	};
 	luaL_newlib(L, lib);
