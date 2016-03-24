@@ -32,15 +32,17 @@
 # Otherwise the module will search for any available Lua implementation
 
 
-if (LUA_SANDBOX_INCLUDE)
+if (LUA_SANDBOX_INCLUDE) # build against an uninstalled sandbox
     add_definitions(-DLUA_SANDBOX)
-    set(LUA_INCLUDE_DIR ${EP_BASE}/include)
+    include_directories(${EP_BASE}/include)
+    set(LUA_INCLUDE_DIR ${EP_BASE}/include/luasandbox)
     include_directories(${LUA_SANDBOX_INCLUDE})
     set(LIB_PATH ${EP_BASE}/lib)
-    find_library(LUA_LIBRARY lua PATHS ${LIB_PATH} NO_DEFAULT_PATH)
-    find_library(LUA_SANDBOX_LIBRARY luasandbox PATHS ${EP_BASE}/../src NO_DEFAULT_PATH)
-    set(LUA_LIBRARY "${LUA_LIBRARY};${LUA_SANDBOX_LIBRARY}")
-else()
+    find_library(LUA_LIBRARY luasb PATHS ${LIB_PATH} NO_DEFAULT_PATH)
+    find_library(LUASANDBOX_LIBRARY luasandbox PATHS ${EP_BASE}/../src NO_DEFAULT_PATH)
+    find_library(LUASANDBOX_UTIL_LIBRARY luasandboxutil PATHS ${EP_BASE}/../src/util NO_DEFAULT_PATH)
+    set(LUA_LIBRARY ${LUA_LIBRARY} ${LUASANDBOX_UTIL_LIBRARY} ${LUASANDBOX_LIBRARY})
+else() # build against the standard Lua
     # Always search for non-versioned lua first (recommended)
     SET(_POSSIBLE_LUA_INCLUDE include include/lua)
     SET(_POSSIBLE_LUA_EXECUTABLE lua)
